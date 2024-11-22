@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Book } from '../../src/data/books';
 
-// Intentionally inefficient: Global state without proper state management
 let globalBooks: Book[] = [];
 
 function App() {
-  // Intentionally problematic: Multiple state variables instead of a single object
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -16,19 +14,16 @@ function App() {
   const [rating, setRating] = useState('');
   const [publishedYear, setPublishedYear] = useState('');
 
-  // Intentionally inefficient: Fetching all books on every render
   useEffect(() => {
     fetchBooks();
   }, []);
 
-  // Intentionally problematic: No error handling or loading states
   const fetchBooks = async () => {
     const response = await axios.get('http://localhost:3000/api/books');
     setBooks(response.data);
-    globalBooks = response.data; // Intentionally bad: using global variable
+    globalBooks = response.data;
   };
 
-  // Intentionally inefficient: Multiple re-renders due to individual state updates
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newBook = {
@@ -45,10 +40,9 @@ function App() {
     setGenre('');
     setRating('');
     setPublishedYear('');
-    fetchBooks(); // Intentionally inefficient: Fetching all books again
+    fetchBooks();
   };
 
-  // Intentionally inefficient: Inline styles and repetitive JSX
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <h1 className="text-3xl font-bold mb-8">Book Library</h1>
